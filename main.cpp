@@ -12,8 +12,8 @@ public:
     string data_Name;
     string data_email;
     node *next;
-    TreapNode *friends;
 };
+
 
 class TreapNode
 {
@@ -31,9 +31,20 @@ public:
     }
 };
 
+struct data
+{
+    node* user;
+    TreapNode* friends;
+    data* next;
+    data(node *u){
+        user = u;
+        friends = nullptr;
+        next = nullptr;
+    }
+};
 
-node *head;
-node *tail;
+data *head;
+data *tail;
 
 void Left_Rot(TreapNode *&root)
 {
@@ -55,8 +66,7 @@ void Right_Rot(TreapNode *&root)
 
 void insertNode(TreapNode *&root, node* frnd) //redo
 {
-
-    if (root == NULL)
+    if (root == nullptr)
     {
         root = new TreapNode(frnd->data_userName, frnd);
         return;
@@ -67,7 +77,7 @@ void insertNode(TreapNode *&root, node* frnd) //redo
         if (root->left != NULL && root->left->priority > root->priority)
             Right_Rot(root);
     }
-    else
+    else if(frnd->data_userName > root->data_userName)
     {
         insertNode(root->right, frnd);
         if (root->right != NULL && root->right->priority > root->priority)
@@ -118,13 +128,11 @@ void insert_end(string new_data_userName, string new_data_Name, string new_data_
 
     if (head == NULL)
     {
-        head = new_node;
-        tail = new_node;
+        head = new data(new_node);
+        tail = head;
         return;
     }
-
-    tail->next = new node();
-    tail->next = new_node;
+    tail->next = new data(new_node);
     tail = tail->next;
 }
 
@@ -161,18 +169,25 @@ void printBST(TreapNode *t)
     printBST(t->left);
     printBST(t->right);
 }
-
-void print_data()
-{
-    node *tmp = head;
-    while (head)
-    {
-        cout << head->data_userName << " "
-             << head->data_Name << " " << head->data_email << "\nBST:\n";
-        displayTreap(head->friends);
-        head = head->next;
-        cout << "---------------------------------------------------\n";
+void printt(TreapNode* t){
+    if(t == nullptr){
+        return;
     }
+    cout << t->data_userName << " " ;
+    printt(t->left);
+    printt(t->right);
+}
+
+void print_data(){
+    data* tmp = head;
+    while (tmp)
+    {
+        cout << tmp->user->data_userName << " " << tmp->user->data_Name << " " << tmp->user->data_email  << "\nTRP:\n";
+        printt(tmp->friends);
+        cout << "\n-------------------------------------------------------------\n";
+        tmp = tmp->next;
+    }
+    
 }
 
 int main()
@@ -190,7 +205,6 @@ int main()
         getline(f, c, ',');
         insert_end(a, b, c);
     }
-
     fstream input2 = fstream("all-users-relations.in", ios::in);
     while (!input2.eof())
     {
@@ -200,27 +214,27 @@ int main()
         string a, b;
         getline(f, a, ',');
         getline(f, b, ',');
-
-        node *tmp = head;
-        node *tmp2 = head; 
-        while (tmp)
+        b.erase(b.begin()); //for White space
+        data *tmp = head;
+        data *tmp2 = head;
+        bool flag1 = true, flag2 = true; 
+        while (tmp and flag1)
         {
-            if (tmp->data_userName == a)
+            if (tmp->user->data_userName == a)
             {
-                while (tmp2)
+                while (tmp2 and flag2)
                 {
-                    if(tmp2->data_userName == b){
-                        insertNode(tmp->friends, tmp2);
-                        tmp2 = nullptr;
+                    if(tmp2->user->data_userName == b){
+                        insertNode(tmp->friends, tmp2->user);
+                        flag2 = false;
                     }
+                    tmp2 = tmp2->next;
                 }
-                tmp = nullptr;
-                continue;
+                flag1 = false;
             }
             tmp = tmp->next;
         }
     }
-
     print_data();
     return 0;
 }
