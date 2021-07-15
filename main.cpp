@@ -169,21 +169,13 @@ void printBST(TreapNode *t)
     printBST(t->left);
     printBST(t->right);
 }
-void printt(TreapNode* t){
-    if(t == nullptr){
-        return;
-    }
-    cout << t->data_userName << " " ;
-    printt(t->left);
-    printt(t->right);
-}
 
 void print_data(){
     data* tmp = head;
     while (tmp)
     {
         cout << tmp->user->data_userName << " " << tmp->user->data_Name << " " << tmp->user->data_email  << "\nTRP:\n";
-        printt(tmp->friends);
+        displayTreap(tmp->friends);
         cout << "\n-------------------------------------------------------------\n";
         tmp = tmp->next;
     }
