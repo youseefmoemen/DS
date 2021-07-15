@@ -136,39 +136,6 @@ void insert_end(string new_data_userName, string new_data_Name, string new_data_
     tail = tail->next;
 }
 
-void delete_duplicates(node *head)
-{
-    node *curr = head;
-    node *ptr2;
-    node *ptr3;
-    while (curr->next != NULL && curr != NULL)
-    {
-        ptr2 = curr;
-        while (ptr2->next != NULL)
-        {
-            if (curr->data_userName == ptr2->next->data_userName)
-            {
-                ptr3 = ptr2->next;
-                ptr2->next = ptr2->next->next;
-                delete (ptr3);
-            }
-            else
-                ptr2 = ptr2->next;
-        }
-        curr = curr->next;
-    }
-}
-
-void printBST(TreapNode *t)
-{
-    if (t == nullptr)
-    {
-        return;
-    }
-    cout << t->data_userName << endl;
-    printBST(t->left);
-    printBST(t->right);
-}
 
 void print_data(){
     data* tmp = head;
