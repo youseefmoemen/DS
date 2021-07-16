@@ -41,13 +41,14 @@ void TreapNode::insertNode(TreapNode *&root, node* frnd)
     else if (frnd->data_userName < root->data_userName)
     {
         insertNode(root->left, frnd);
-        if (root->left != NULL && root->left->priority > root->priority)
+        if (root->left != NULL && root->left->priority < root->priority)
             Right_Rot(root);
     }
+
     else if(frnd->data_userName > root->data_userName)
     {
         insertNode(root->right, frnd);
-        if (root->right != NULL && root->right->priority > root->priority)
+        if (root->right != NULL && root->right->priority < root->priority)
            Left_Rot(root);
     }
     else //duplcation
