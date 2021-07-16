@@ -1,3 +1,5 @@
+
+
 #include "node.h"
 #include <iostream>
 using namespace std;
@@ -13,4 +15,5 @@ public:
     void Right_Rot(TreapNode *&);
     void insertNode(TreapNode *&, node*);
     bool searchNode(TreapNode *, string);
-};
+    };
+

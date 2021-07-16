@@ -1,6 +1,8 @@
+
 #include<iostream>
 using namespace std;
 
+//node of the user details
 class node
 {
 public:
@@ -8,4 +10,3 @@ public:
     string data_Name;
     string data_email;
 };
-
