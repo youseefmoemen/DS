@@ -150,7 +150,7 @@ void potential_friends(data *user){
     while (tmp)
     {
         if(tmp != user and !user->friends->searchNode(user->friends, tmp->user->data_userName)){
-            cout << count+1 << ": " << tmp->user->data_userName << endl;
+            cout << count+1 << ": " << tmp->user->data_userName << ", " << tmp->user->data_Name << endl;
             count++;
         }
         if (count == 5)
