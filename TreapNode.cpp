@@ -78,3 +78,24 @@ bool TreapNode::searchNode(TreapNode *root, string key)
         return searchNode(root->right, key);
 }
 
+TreapNode *TreapNode::Find(TreapNode *root, string key) {
+    if (root == NULL)
+    {
+        return nullptr;
+    }
+
+    else if (root->data_userName == key)
+    {
+        return root;
+    }
+
+    else if (key < root->data_userName)
+        return Find(root->left, key);
+
+    else
+        return Find(root->right, key);
+
+}
+
+
+
