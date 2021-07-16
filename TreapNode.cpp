@@ -1,4 +1,6 @@
-#include "TreapNode.h"
+#ifndef TREAPNODE_H
+#define TREAPNODE_H
+#endif
 #include <climits>
 
 TreapNode::TreapNode(string data_userName, node *u){
@@ -56,18 +58,15 @@ void TreapNode::insertNode(TreapNode *&root, node* frnd)
 }
 
 //Search in the Treap
-bool TreapNode::searchNode(TreapNode *root, string key)
+bool TreapNode::searchNode(TreapNode *root, string key) //Deleting the cout(s) just useless and use conditions at callings
 {
     if (root == NULL)
     {
-        cout << "not found" << endl;
         return false;
     }
 
     else if (root->data_userName == key)
     {
-        cout << "found" << endl;
-        cout << key << endl;
         return true;
     }
 
