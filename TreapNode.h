@@ -15,7 +15,9 @@ public:
     void Right_Rot(TreapNode *&);
     void insertNode(TreapNode *&, node*);
     bool searchNode(TreapNode *, string);
-    TreapNode* Find(TreapNode*,string);
+    node* Find(TreapNode*,string);
+    void remove(TreapNode* &root, string key);
+    
 
 
     };
