@@ -76,8 +76,7 @@ bool TreapNode::searchNode(TreapNode *root, string key) //Deleting the cout(s) j
     else
         return searchNode(root->right, key);
 }
-
-TreapNode *TreapNode::Find(TreapNode *root, string key) {
+node *TreapNode::Find(TreapNode *root, string key) {
     if (root == NULL)
     {
         return nullptr;
@@ -85,7 +84,7 @@ TreapNode *TreapNode::Find(TreapNode *root, string key) {
 
     else if (root->data_userName == key)
     {
-        return root;
+        return root->user;
     }
 
     else if (key < root->data_userName)
@@ -94,6 +93,54 @@ TreapNode *TreapNode::Find(TreapNode *root, string key) {
     else
         return Find(root->right, key);
 
+}
+
+
+void TreapNode::remove(TreapNode* &root, string key)
+{
+    if (root == NULL)
+        return;
+
+
+    if (key < root->data_userName)
+        remove(root->left, key);
+
+
+    else if (key > root->data_userName)
+        remove(root->right, key);
+
+
+    else
+        {
+
+        if (root->left == NULL && root->right == NULL)
+        {
+            delete root;
+            root = nullptr;
+        }
+
+        else if (root->left!=NULL && root->right!=NULL)
+        {
+
+            if (root->left->priority < root->right->priority)
+            {
+                Right_Rot(root);
+                remove(root->left, key);
+            }
+            else {
+                Left_Rot(root);
+                remove(root->right, key);
+            }
+
+        }
+
+        else {
+            TreapNode* child = (root->left)? root->left: root->right;
+            TreapNode* curr = root;
+            root = child;
+            delete curr;
+        }
+    }
 }
 
 
