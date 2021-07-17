@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include "TreapNode.h"
-
+#include "TreapNode.cpp"
 using namespace std;
 
 
@@ -12,7 +12,6 @@ struct data {
     node *user;
     TreapNode *friends;
     data *next;
-
     data(node *u) {
         user = u;
         friends = nullptr;

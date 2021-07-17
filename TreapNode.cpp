@@ -1,7 +1,6 @@
+#include <climits>
 #ifndef TREAPNODE_H
 #define TREAPNODE_H
-#endif
-#include <climits>
 
 TreapNode::TreapNode(string data_userName, node *u){
     this->data_userName = data_userName;
@@ -144,4 +143,4 @@ void TreapNode::remove(TreapNode* &root, string key)
 }
 
 
-
+#endif
