@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include "TreapNode.h"
+#include "TreapNode.cpp"
 using namespace std;
 
 
@@ -37,6 +38,15 @@ void PrintUser(node *Node);
 
 //Function that get people may know
 void potential_friends(data *user);
+
+//function to make two users friends
+void add_friend(data *user, string frnd_username);
+
+//function to unfriend two users 
+void remove_friend(data *user, string frnd_username);
+
+//searches for the user by username, used in log in, add and remove friends
+data* get_user (string username);
 
 int main()
 {
@@ -96,19 +106,8 @@ int main()
             cout << "Enter Username:";
             cin >> username;
 
-            data *curr = head;
-
-            data *user = NULL;
-            while (curr != NULL && !user) {
-
-                if (curr->user->data_userName == username) {
-                    user = curr;
-                }
-
-                curr = curr->next;
-
-            }
-
+            data *user = get_user(username);
+            
             if (user == NULL) {
                 cout << "Invalid Username\n";
             } else {
@@ -137,6 +136,18 @@ int main()
                             PrintUser(Friend);
                         else
                             cout<<"Not Found\n";
+
+                    } else if (choice2 == 3) {
+                        string username2;
+                        cout << "please Enter the Username: ";
+                        cin >> username2;
+                        add_friend(user, username2);
+
+                    } else if (choice2 == 4) {
+                        string username2;
+                        cout << "please Enter the Username: ";
+                        cin >> username2;
+                        remove_friend(user, username2);
 
                     } else if (choice2 == 5) {
 
@@ -250,4 +261,35 @@ void print_data() {
         tmp = tmp->next;
     }
 
+}
+
+void add_friend(data *user, string frnd_username) {
+    data* frnd = get_user(frnd_username);
+    user->friends->insertNode(user->friends,frnd->user);
+    frnd->friends->insertNode(frnd->friends,user->user);
+
+    fstream relations;
+    relations.open("all-users-relations.in", ios::app);
+    relations << "\n" << user->user->data_userName << ", " << frnd->user->data_userName;
+    relations.close();
+}
+
+void remove_friend(data *user, string frnd_username) {
+    data* frnd = get_user(frnd_username);
+    user->friends->remove(user->friends,frnd->user->data_userName);
+    frnd->friends->remove(frnd->friends,user->user->data_userName);
+}
+
+data* get_user (string username) {
+    data *curr = head;
+
+    data *user = NULL;
+    while (curr != NULL && !user) {
+
+      if (curr->user->data_userName == username) {
+        user = curr;
+      }
+      curr = curr->next;   
+    }
+    return user;
 }
