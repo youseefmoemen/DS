@@ -3,7 +3,6 @@
 #include <fstream>
 #include <sstream>
 #include "TreapNode.h"
-#include "TreapNode.cpp"
 using namespace std;
 
 
