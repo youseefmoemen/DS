@@ -8,11 +8,11 @@ using namespace std;
 
 
 //Data of the node of Linked List
-struct data {
+struct data_node {
     node *user;
     TreapNode *friends;
-    data *next;
-    data(node *u) {
+    data_node *next;
+    data_node(node *u) {
         user = u;
         friends = nullptr;
         next = nullptr;
@@ -20,15 +20,15 @@ struct data {
 };
 
 //Head and Tail of The Linked List
-data *head;
-data *tail;
+data_node *head;
+data_node *tail;
 
 void displayTreap(TreapNode *root, int space = 0, int height = 10);
 
 //Insert at the end of the linked list
 void insert_end(string new_data_userName, string new_data_Name, string new_data_email) ;
 
-//Print the data of the linked list
+//Print the data_node of the linked list
 void print_data() ;
 
 //inorder Traversal
@@ -37,16 +37,16 @@ void inorder(TreapNode *root);
 void PrintUser(node *Node);
 
 //Function that get people may know
-void potential_friends(data *user);
+void potential_friends(data_node *user);
 
 //function to make two users friends
-void add_friend(data *user, string frnd_username);
+void add_friend(data_node *user, string frnd_username);
 
-//function to unfriend two users 
-void remove_friend(data *user, string frnd_username);
+//function to unfriend two users
+void remove_friend(data_node *user, string frnd_username);
 
 //searches for the user by username, used in log in, add and remove friends
-data* get_user (string username);
+data_node* get_user (string username);
 
 int main()
 {
@@ -75,8 +75,8 @@ int main()
         getline(f, b, ',');
         b.erase(b.begin());
 
-        data *tmp = head;
-        data *tmp2 = head;
+        data_node *tmp = head;
+        data_node *tmp2 = head;
 
         bool flag1 = true, flag2 = true;
         while (tmp and flag1) {
@@ -106,8 +106,8 @@ int main()
             cout << "Enter Username:";
             cin >> username;
 
-            data *user = get_user(username);
-            
+            data_node *user = get_user(username);
+
             if (user == NULL) {
                 cout << "Invalid Username\n";
             } else {
@@ -185,15 +185,15 @@ void PrintUser(node *Node)
 {
 
     cout << "Data:-" << endl;
-    cout << "Username:" << Node->data_Name << endl;
+    cout << "Username:" << Node->data_userName << endl;
     cout << "Name:" << Node->data_Name << endl;
     cout << "Email:" << Node->data_email << endl;
     cout << "-------------------------------------------------------------\n";
 
 }
 
-void potential_friends(data *user){
-    data *tmp = head;
+void potential_friends(data_node *user){
+    data_node *tmp = head;
     int count = 0;
     while (tmp)
     {
@@ -229,11 +229,11 @@ void insert_end(string new_data_userName, string new_data_Name, string new_data_
     new_node->data_email = new_data_email;
 
     if (head == NULL) {
-        head = new data(new_node);
+        head = new data_node(new_node);
         tail = head;
         return;
     }
-    tail->next = new data(new_node);
+    tail->next = new data_node(new_node);
     tail = tail->next;
 }
 
@@ -252,7 +252,7 @@ void displayTreap(TreapNode *root, int space, int height)
 }
 
 void print_data() {
-    data *tmp = head;
+    data_node *tmp = head;
     while (tmp) {
         cout << tmp->user->data_userName << " " << tmp->user->data_Name << " " << tmp->user->data_email << "\nTRP:\n";
         displayTreap(tmp->friends);
@@ -263,8 +263,8 @@ void print_data() {
 
 }
 
-void add_friend(data *user, string frnd_username) {
-    data* frnd = get_user(frnd_username);
+void add_friend(data_node *user, string frnd_username) {
+    data_node* frnd = get_user(frnd_username);
     user->friends->insertNode(user->friends,frnd->user);
     frnd->friends->insertNode(frnd->friends,user->user);
 
@@ -274,22 +274,22 @@ void add_friend(data *user, string frnd_username) {
     relations.close();
 }
 
-void remove_friend(data *user, string frnd_username) {
-    data* frnd = get_user(frnd_username);
+void remove_friend(data_node *user, string frnd_username) {
+    data_node* frnd = get_user(frnd_username);
     user->friends->remove(user->friends,frnd->user->data_userName);
     frnd->friends->remove(frnd->friends,user->user->data_userName);
 }
 
-data* get_user (string username) {
-    data *curr = head;
+data_node* get_user (string username) {
+    data_node *curr = head;
 
-    data *user = NULL;
+    data_node *user = NULL;
     while (curr != NULL && !user) {
 
-      if (curr->user->data_userName == username) {
-        user = curr;
-      }
-      curr = curr->next;   
+        if (curr->user->data_userName == username) {
+            user = curr;
+        }
+        curr = curr->next;
     }
     return user;
 }
