@@ -75,6 +75,7 @@ int main()
                 while (tmp2 and flag2) {
                     if (tmp2->user->data_userName == b) {
                         tmp->friends->insertNode(tmp->friends, tmp2->user);
+                        tmp2->friends->insertNode(tmp2->friends, tmp->user);
                         flag2 = false;
                     }
                     tmp2 = tmp2->next;
