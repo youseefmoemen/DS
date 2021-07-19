@@ -23,13 +23,9 @@ struct data_node {
 data_node *head;
 data_node *tail;
 
-void displayTreap(TreapNode *root, int space = 0, int height = 10);
-
 //Insert at the end of the linked list
 void insert_end(string new_data_userName, string new_data_Name, string new_data_email) ;
 
-//Print the data_node of the linked list
-void print_data() ;
 
 //inorder Traversal
 void inorder(TreapNode *root);
@@ -56,7 +52,7 @@ int main()
     while (!input.eof()) {
         string s;
         getline(input, s);
-          if(s.empty())
+        if(s.empty())
             continue;
         stringstream f(s);
         string a, b, c;
@@ -71,7 +67,7 @@ int main()
     while (!input2.eof()) {
         string s;
         getline(input2, s);
-          if(s.empty())
+        if(s.empty())
             continue;
         stringstream f(s);
         string a, b;
@@ -158,7 +154,7 @@ int main()
                         string username2;
                         cout << "please Enter the Username: ";
                         cin >> username2;
-                        
+
                         data_node* frnd = get_user(username2);
                         if (frnd != NULL) {
                             remove_friend(user, frnd);
@@ -255,35 +251,9 @@ void insert_end(string new_data_userName, string new_data_Name, string new_data_
     tail = tail->next;
 }
 
-void displayTreap(TreapNode *root, int space, int height)
-{
-    if (root == NULL)
-        return;
-    space += height;
-    displayTreap(root->left, space);
-    cout << endl;
-    for (int i = height; i < space; i++)
-        cout << ' ';
-    cout << root->data_userName << "(" << root->priority << ")\n";
-    cout << endl;
-    displayTreap(root->right, space);
-}
-
-void print_data() {
-    data_node *tmp = head;
-    while (tmp) {
-        cout << tmp->user->data_userName << " " << tmp->user->data_Name << " " << tmp->user->data_email << "\nTRP:\n";
-        displayTreap(tmp->friends);
-
-        cout << "\n-------------------------------------------------------------\n";
-        tmp = tmp->next;
-    }
-
-}
-
 void add_friend(data_node *user, data_node *frnd) {
     if (user->friends->searchNode(user->friends, frnd->user->data_userName) == false){
-        
+
         user->friends->insertNode(user->friends,frnd->user);
         frnd->friends->insertNode(frnd->friends,user->user);
 
@@ -297,12 +267,12 @@ void add_friend(data_node *user, data_node *frnd) {
     else {
         cout<<"You are already friends \n";
     }
-    
+
 }
 
 void remove_friend(data_node *user, data_node *frnd) {
     if (user->friends->searchNode(user->friends, frnd->user->data_userName) == true){
-        
+
         user->friends->remove(user->friends,frnd->user->data_userName);
         frnd->friends->remove(frnd->friends,user->user->data_userName);
 
@@ -312,8 +282,8 @@ void remove_friend(data_node *user, data_node *frnd) {
         while (!relations.eof()) {
             string line;
             getline(relations, line);
-            if (line != user->user->data_userName+", "+ frnd->user->data_userName 
-             && line != frnd->user->data_userName+", "+ user->user->data_userName) {
+            if (line != user->user->data_userName+", "+ frnd->user->data_userName
+                && line != frnd->user->data_userName+", "+ user->user->data_userName) {
                 temp << line << endl;
             }
         }
