@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
+#include <string>
 #include "TreapNode.h"
 #include "TreapNode.cpp"
 using namespace std;
@@ -40,10 +41,10 @@ void PrintUser(node *Node);
 void potential_friends(data_node *user);
 
 //function to make two users friends
-void add_friend(data_node *user, string frnd_username);
+void add_friend(data_node *user, data_node *frnd);
 
 //function to unfriend two users
-void remove_friend(data_node *user, string frnd_username);
+void remove_friend(data_node *user, data_node *frnd);
 
 //searches for the user by username, used in log in, add and remove friends
 data_node* get_user (string username);
@@ -141,13 +142,27 @@ int main()
                         string username2;
                         cout << "please Enter the Username: ";
                         cin >> username2;
-                        add_friend(user, username2);
+
+                        data_node* frnd = get_user(username2);
+                        if (frnd != NULL) {
+                            add_friend(user, frnd);
+                        }
+                        else {
+                            cout<< "Invalid Username \n";
+                        }
 
                     } else if (choice2 == 4) {
                         string username2;
                         cout << "please Enter the Username: ";
                         cin >> username2;
-                        remove_friend(user, username2);
+                        
+                        data_node* frnd = get_user(username2);
+                        if (frnd != NULL) {
+                            remove_friend(user, frnd);
+                        }
+                        else {
+                            cout<< "Invalid Username \n";
+                        }
 
                     } else if (choice2 == 5) {
 
@@ -263,21 +278,61 @@ void print_data() {
 
 }
 
-void add_friend(data_node *user, string frnd_username) {
-    data_node* frnd = get_user(frnd_username);
-    user->friends->insertNode(user->friends,frnd->user);
-    frnd->friends->insertNode(frnd->friends,user->user);
+void add_friend(data_node *user, data_node *frnd) {
+    if (user->friends->searchNode(user->friends, frnd->user->data_userName) == false){
+        
+        user->friends->insertNode(user->friends,frnd->user);
+        frnd->friends->insertNode(frnd->friends,user->user);
 
-    fstream relations;
-    relations.open("all-users-relations.in", ios::app);
-    relations << "\n" << user->user->data_userName << ", " << frnd->user->data_userName;
-    relations.close();
+        fstream relations;
+        relations.open("all-users-relations.in", ios::app);
+        relations << "\n" << user->user->data_userName << ", " << frnd->user->data_userName;
+        relations.close();
+
+        cout<<"You are now friends \n";
+    }
+    else {
+        cout<<"You are already friends \n";
+    }
+    
 }
 
-void remove_friend(data_node *user, string frnd_username) {
-    data_node* frnd = get_user(frnd_username);
-    user->friends->remove(user->friends,frnd->user->data_userName);
-    frnd->friends->remove(frnd->friends,user->user->data_userName);
+void remove_friend(data_node *user, data_node *frnd) {
+    if (user->friends->searchNode(user->friends, frnd->user->data_userName) == true){
+        
+        user->friends->remove(user->friends,frnd->user->data_userName);
+        frnd->friends->remove(frnd->friends,user->user->data_userName);
+
+        fstream relations, temp;
+        relations.open("all-users-relations.in", ios::in);
+        temp.open("temp.txt", ios::out);
+        while (!relations.eof()) {
+            string line;
+            getline(relations, line);
+            if (line != user->user->data_userName+", "+ frnd->user->data_userName 
+             && line != frnd->user->data_userName+", "+ user->user->data_userName) {
+                temp << line << endl;
+            }
+        }
+        relations.close();
+        temp.close();
+
+        relations.open("all-users-relations.in", ios::out);
+        temp.open("temp.txt", ios::in);
+        while (!temp.eof()) {
+            string line;
+            getline(temp, line);
+            relations << line << endl;
+        }
+        relations.close();
+        temp.close();
+        remove("temp.txt");
+
+        cout<< "Done \n";
+    }
+    else {
+        cout<<"Done \n";
+    }
 }
 
 data_node* get_user (string username) {
