@@ -4,7 +4,6 @@
 #include <sstream>
 #include <string>
 #include "TreapNode.h"
-#include "TreapNode.cpp"
 using namespace std;
 
 
@@ -57,6 +56,8 @@ int main()
     while (!input.eof()) {
         string s;
         getline(input, s);
+          if(s.empty())
+            continue;
         stringstream f(s);
         string a, b, c;
         getline(f, a, ',');
@@ -70,6 +71,8 @@ int main()
     while (!input2.eof()) {
         string s;
         getline(input2, s);
+          if(s.empty())
+            continue;
         stringstream f(s);
         string a, b;
         getline(f, a, ',');
